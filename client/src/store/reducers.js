@@ -1,12 +1,11 @@
 import * as TYPES from './types';
 
 const initialState = {
-  adverts: [],
   filter: {},
-  user: {}
+  user: {},
 }
 
-export const user = (state = initialState, action) => {
+export const user = (state = initialState.user, action) => {
   switch(action.type) {
     case TYPES.SET_USER:
       return action.user;
@@ -15,7 +14,7 @@ export const user = (state = initialState, action) => {
   }
 };
 
-export const filter = (state = initialState, action) => {
+export const filter = (state = initialState.filter, action) => {
   switch(action.type) {
     case TYPES.SET_FILTER:
       return action.filter;
