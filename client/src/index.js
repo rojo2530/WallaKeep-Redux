@@ -16,5 +16,5 @@ const store = configureStore();
 store.dispatch(setUser(user));
 console.log(store.getState());
 
-ReactDOM.render(<App />, document.getElementById('root'));
+ReactDOM.render(<App store={store} />, document.getElementById('root'));
 

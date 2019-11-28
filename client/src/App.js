@@ -1,7 +1,7 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // import { UserProvider } from './contexts/user';
-import 
+import { Provider } from 'react-redux';
 
 import Adverts from './components/Adverts';
 import Register from './components/Register';
@@ -26,8 +26,10 @@ export default class App extends React.Component {
 	}
 	
   render () {
+		const { store } = this.props; 
     return (
-			<ErrorBoundary >	
+			<ErrorBoundary >
+				<Provider store={store}>	
 					<Router>
 						<Switch>
 							<Route exact path='/' component={Adverts} />
@@ -39,6 +41,7 @@ export default class App extends React.Component {
 						</Switch>
 						
 					</Router>
+				</Provider>
 			</ErrorBoundary>  
     );
   }
