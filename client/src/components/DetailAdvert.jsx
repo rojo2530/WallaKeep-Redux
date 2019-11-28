@@ -1,5 +1,5 @@
 import React from 'react';
-import UserContext from '../contexts/user';
+// import UserContext from '../contexts/user';
 import { restoreUser } from '../utils/storage';
 import Loading from './Loading';
 import api from '../utils/api';
@@ -26,7 +26,7 @@ export default class DetailAdvert extends React.Component {
   }
 
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || this.context.user;
+    const user = this.updateFilterFromStorage() || {};
     if (Object.entries(user).length === 0) {
       return this.props.history.push('/register');
     }
@@ -45,19 +45,19 @@ export default class DetailAdvert extends React.Component {
 
   updateFilterFromStorage() {
     const user = restoreUser();
-    if (user !== null) {
-      this.context.updateUser(user);
-    }
+    // if (user !== null) {
+    //   this.context.updateUser(user);
+    // }
     return user;
   }
 
   render() {
     const { advert, loading } = this.state;
-    const { user } = this.context;
+    const { user } = this.context || restoreUser();
 
-    if (Object.entries(user).length === 0) {
-      return null;
-    }
+    // if (Object.entries(user).length === 0) {
+    //   return null;
+    // }
     if (loading) {
       return <Loading text='Fetching detail Advert' />
     }
@@ -133,4 +133,4 @@ export default class DetailAdvert extends React.Component {
   }
 }
 
-DetailAdvert.contextType = UserContext;
+// DetailAdvert.contextType = UserContext;

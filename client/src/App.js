@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import { UserProvider } from './contexts/user';
+// import { UserProvider } from './contexts/user';
+import 
+
 import Adverts from './components/Adverts';
 import Register from './components/Register';
 import ManageAdvert from './components/ManageAdvert';
@@ -26,7 +28,6 @@ export default class App extends React.Component {
   render () {
     return (
 			<ErrorBoundary >	
-				<UserProvider value={this.state}>
 					<Router>
 						<Switch>
 							<Route exact path='/' component={Adverts} />
@@ -38,7 +39,6 @@ export default class App extends React.Component {
 						</Switch>
 						
 					</Router>
-				</UserProvider>  
 			</ErrorBoundary>  
     );
   }

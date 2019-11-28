@@ -1,6 +1,6 @@
 import React from 'react';
 import SelectTag from './SelectTag';
-import UserContext from '../contexts/user';
+// import UserContext from '../contexts/user';
 import { restoreUser } from '../utils/storage';
 import { saveUser } from '../utils/storage';
 import { FaUser, FaTag } from 'react-icons/fa';
@@ -39,7 +39,7 @@ export default class Register extends React.Component {
     if (this.isInvalidValidForm()) {
       return false;
     }
-    this.context.updateUser(this.state.user);
+    // this.context.updateUser(this.state.user);
     this.props.history.push('/');
 
     saveUser(this.state.user);
@@ -48,14 +48,14 @@ export default class Register extends React.Component {
 
   updateFilterFromStorage () {
     const user = restoreUser();
-    if (user !== null) {
-      this.context.updateUser(user);
-    }
+    // if (user !== null) {
+    //   this.context.updateUser(user);
+    // }
     return user;
   }
 
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || this.context.user;
+    const user = this.updateFilterFromStorage() || {};
     if (Object.entries(user).length !== 0) {
       return this.props.history.push('/');
     }
@@ -63,9 +63,9 @@ export default class Register extends React.Component {
 
   render () {
     const { user } = this.state;
-    if (Object.entries(this.context.user).length !== 0) {
-      return null;
-    }
+    // if (Object.entries(this.context.user).length !== 0) {
+    //   return null;
+    // }
     return (
       <section className="hero is-fullheight is-dark">
         <div className="hero-body">
@@ -120,4 +120,4 @@ export default class Register extends React.Component {
   }
 }
 
-Register.contextType = UserContext;
+// Register.contextType = UserContext;

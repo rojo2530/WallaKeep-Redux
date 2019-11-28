@@ -1,5 +1,5 @@
 import React from 'react';
-import UserContext from '../contexts/user';
+// import UserContext from '../contexts/user';
 import { Link } from 'react-router-dom';
 import { restoreUser } from '../utils/storage';
 import Navbar from './Navbar';
@@ -122,14 +122,14 @@ export default class Adverts extends React.Component {
 
   updateFilterFromStorage () {
     const user = restoreUser();
-    if (user !== null) {
-      this.context.updateUser(user);
-    }
+    // if (user !== null) {
+    //   this.context.updateUser(user);
+    // }
     return user;
   }
   
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || this.context.user;
+    const user = this.updateFilterFromStorage() || {};
     if (Object.entries(user).length === 0) {
       return this.props.history.push('/register');
     }
@@ -168,11 +168,11 @@ export default class Adverts extends React.Component {
 
   render () {
     const { loading , adverts, filter, totalPages, currentPage, error, errorMessage } = this.state;
-    const { user } = this.context;
+    const { user } = this.context || restoreUser();
 
-    if (Object.entries(user).length === 0) {
-      return null;
-    }
+    // if (Object.entries(user).length === 0) {
+    //   return null;
+    // }
     if (error) {
       return <CaptureError message="Error fecthing Adverts" error={errorMessage} />
     }
@@ -199,4 +199,4 @@ export default class Adverts extends React.Component {
   } 
 }
 
-Adverts.contextType = UserContext;
+// Adverts.contextType = UserContext;
