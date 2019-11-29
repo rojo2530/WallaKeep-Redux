@@ -1,7 +1,8 @@
 import React from 'react';
 // import UserContext from '../contexts/user';
 import { Link } from 'react-router-dom';
-import { restoreUser } from '../utils/storage';
+// import { restoreUser } from '../utils/storage';
+import { connect } from 'react-redux';
 import Navbar from './Navbar';
 import Loading from './Loading';
 import Searchbar from './Searchbar';
@@ -73,7 +74,7 @@ AdvertsGrid.propTypes = {
   adverts: PropTypes.array.isRequired
 }
 
-export default class Adverts extends React.Component {
+class Adverts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -120,16 +121,16 @@ export default class Adverts extends React.Component {
     });
   }
 
-  updateFilterFromStorage () {
-    const user = restoreUser();
-    // if (user !== null) {
-    //   this.context.updateUser(user);
-    // }
-    return user;
-  }
+  // updateFilterFromStorage () {
+  //   const user = restoreUser();
+  //   // if (user !== null) {
+  //   //   this.context.updateUser(user);
+  //   // }
+  //   return user;
+  // }
   
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || {};
+    const user = this.props.user || {};
     if (Object.entries(user).length === 0) {
       return this.props.history.push('/register');
     }
@@ -146,9 +147,8 @@ export default class Adverts extends React.Component {
     if (prevState.currentPage !== this.state.currentPage) {
       this.fetchAdverts(this.state.filter, this.state.currentPage)
    }
-   
   }
-
+  
   fetchAdverts(filter, page) {
     getAdverts(filter, page)
       .then(res => this.setState({
@@ -163,12 +163,11 @@ export default class Adverts extends React.Component {
           loading: false,
         })
       });
-      
-  }
+   }
 
   render () {
     const { loading , adverts, filter, totalPages, currentPage, error, errorMessage } = this.state;
-    const { user } = this.context || restoreUser();
+    const { user } = this.props.user || {};
 
     // if (Object.entries(user).length === 0) {
     //   return null;
@@ -198,5 +197,14 @@ export default class Adverts extends React.Component {
     )
   } 
 }
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps)(Adverts);
+
 
 // Adverts.contextType = UserContext;

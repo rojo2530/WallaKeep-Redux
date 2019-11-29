@@ -6,15 +6,23 @@ import './index.css';
 
 import App from './App';
 import { configureStore } from './store';
-import { setUser } from './store/actions';
+import { restoreUser, saveUser } from './utils/storage';
 
-const user = {
-  name: 'pepe',
-  pass: '1234'
+const initialState = {
+  filter: {},
+  user: {},
 }
-const store = configureStore();
-store.dispatch(setUser(user));
-console.log(store.getState());
+//Cargamos el Store con lo que hay en localstorage y si esta vacío usamos el estado inicial
+const preloadedState = restoreUser() ||initialState;
+console.log('Estado inicial: ', preloadedState);
+
+const store = configureStore(preloadedState);
+
+//Cualquier cambio en el store lo guardamos en el localstorage
+store.subscribe(() => {
+  const { user } = store.getState();
+  saveUser(user);
+});
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
 

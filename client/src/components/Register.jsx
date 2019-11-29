@@ -1,11 +1,13 @@
 import React from 'react';
 import SelectTag from './SelectTag';
+import { connect } from 'react-redux';
 // import UserContext from '../contexts/user';
-import { restoreUser } from '../utils/storage';
-import { saveUser } from '../utils/storage';
+// import { restoreUser } from '../utils/storage';
+// import { saveUser } from '../utils/storage';
 import { FaUser, FaTag } from 'react-icons/fa';
+import { setUser } from '../store/actions';
 
-export default class Register extends React.Component {
+class Register extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -40,25 +42,26 @@ export default class Register extends React.Component {
       return false;
     }
     // this.context.updateUser(this.state.user);
+    this.props.setUser(this.state.user);
     this.props.history.push('/');
 
-    saveUser(this.state.user);
+    // saveUser(this.state.user);
     return true;
   }
 
-  updateFilterFromStorage () {
-    const user = restoreUser();
-    // if (user !== null) {
-    //   this.context.updateUser(user);
-    // }
-    return user;
-  }
+  // updateFilterFromStorage () {
+  //   // const user = restoreUser();
+  //   // if (user !== null) {
+  //   //   this.context.updateUser(user);
+  //   // }
+  //   return user;
+  // }
 
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || {};
-    if (Object.entries(user).length !== 0) {
-      return this.props.history.push('/');
-    }
+    // const user = this.updateFilterFromStorage() || {};
+    // if (Object.entries(this.props.user).length !== 0) {
+    //   return this.props.history.push('/');
+    // }
   }
 
   render () {
@@ -119,5 +122,19 @@ export default class Register extends React.Component {
     )
   }
 }
+
+function mapDispatchToProps(dispatch) {
+  return {
+    setUser: user => dispatch(setUser(user)) 
+  }
+}
+
+function mapStateToProps(state) {
+  return {
+    user: state.user
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Register);
 
 // Register.contextType = UserContext;

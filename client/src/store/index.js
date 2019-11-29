@@ -3,8 +3,8 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 
 import * as reducers from './reducers';
 
-export function configureStore() {
+export function configureStore(preloadedState) {
   const reducer = combineReducers(reducers);
-  return createStore(reducer, composeWithDevTools());
+  return createStore(reducer, preloadedState, composeWithDevTools());
 }
 
