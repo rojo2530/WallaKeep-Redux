@@ -1,6 +1,4 @@
 import React from 'react';
-import UserContext from '../contexts/user';
-import { restoreUser } from '../utils/storage';
 import SelectMultiple from './SelectMultiple';
 import Navbar from './Navbar';
 import Footer from './Footer';
@@ -41,14 +39,6 @@ export default class ManageAdvert extends React.Component {
     this.onSubmit = this.onSubmit.bind(this);
   }
 
-  updateFilterFromStorage() {
-    const user = restoreUser();
-    if (user !== null) {
-      this.context.updateUser(user);
-    }
-    return user;
-  }
-
   onSubmit(event) {
     event.preventDefault();
     if (this.state.edit) {
@@ -74,10 +64,6 @@ export default class ManageAdvert extends React.Component {
   }
 
   componentDidMount() {
-    const user = this.updateFilterFromStorage() || this.context.user;
-    if (Object.entries(user).length === 0) {
-      return this.props.history.push('/register');
-    }
     if (this.props.history.location.pathname.includes('/advert/edit')) {
       const { id } = this.props.match.params;
       return getAdvertDetail(id).then(advert => this.setState({
@@ -128,11 +114,7 @@ export default class ManageAdvert extends React.Component {
 
   render() {
     const { advert, loading, edit } = this.state;
-    const { user } = this.context;
-
-    if (Object.entries(user).length === 0) {
-      return null;
-    }
+    
     if (loading) {
       return null;
     }
@@ -224,4 +206,3 @@ export default class ManageAdvert extends React.Component {
   }
 }
 
-ManageAdvert.contextType = UserContext;

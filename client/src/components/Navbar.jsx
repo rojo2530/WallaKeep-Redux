@@ -1,7 +1,9 @@
 import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import UserContext from '../contexts/user';
-import { deleteStorage } from '../utils/storage';
+import { connect } from 'react-redux';
+import { setUser } from '../store/actions';
+// import UserContext from '../contexts/user';
+// import { deleteStorage } from '../utils/storage';
 
 class Navbar extends React.Component {
   constructor(props) {
@@ -21,8 +23,9 @@ class Navbar extends React.Component {
 
   logout(event) {
     event.preventDefault();
-    deleteStorage();
-    this.context.updateUser({});
+    // deleteStorage();
+    //Dejamos el campo de user a un objecto vacio en el estado de redux
+    this.props.setUser({});
     this.props.history.push('/register');
   }
 
@@ -58,6 +61,15 @@ class Navbar extends React.Component {
   }
 }
 
-Navbar.contextType = UserContext;
+// Navbar.contextType = UserContext;
 
-export default withRouter(Navbar);
+function mapDispatchToProps(dispatch) {
+  return {
+    setUser: user => dispatch(setUser(user)),
+  }
+}
+
+
+export default connect(null, mapDispatchToProps)(withRouter(Navbar)); 
+
+// export default withRouter(Navbar);

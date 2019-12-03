@@ -125,7 +125,7 @@ class Register extends React.Component {
 
 function mapDispatchToProps(dispatch) {
   return {
-    setUser: user => dispatch(setUser(user)) 
+    setUser: user => dispatch(setUser(user)),
   }
 }
 

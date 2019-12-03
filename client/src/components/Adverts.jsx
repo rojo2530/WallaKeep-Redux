@@ -1,8 +1,7 @@
 import React from 'react';
-// import UserContext from '../contexts/user';
 import { Link } from 'react-router-dom';
-// import { restoreUser } from '../utils/storage';
 import { connect } from 'react-redux';
+import { setFilter, fetchAdverts} from '../store/actions';
 import Navbar from './Navbar';
 import Loading from './Loading';
 import Searchbar from './Searchbar';
@@ -12,6 +11,7 @@ import CaptureError from './CaptureError';
 import Footer from './Footer';
 import PropTypes from 'prop-types';
 import { FaShoppingCart } from 'react-icons/fa';
+// import { FETCH_ADVERTS_FAILURE } from '../store/types';
 
 const styles = {
   content: {
@@ -98,11 +98,14 @@ class Adverts extends React.Component {
 
   handlerSubmit(event) {
     event.preventDefault();
+    
     this.setState({
       loading: true,
       currentPage: 1,
-    })
-    this.fetchAdverts(this.state.filter);
+    });
+    this.props.setFilter(this.state.filter);
+    // this.fetchAdverts(this.state.filter);
+    this.props.loadAdverts();
   }
 
   handlerPage(currentPage) {
@@ -121,26 +124,18 @@ class Adverts extends React.Component {
     });
   }
 
-  // updateFilterFromStorage () {
-  //   const user = restoreUser();
-  //   // if (user !== null) {
-  //   //   this.context.updateUser(user);
-  //   // }
-  //   return user;
-  // }
-  
   componentDidMount() {
-    const user = this.props.user || {};
-    if (Object.entries(user).length === 0) {
-      return this.props.history.push('/register');
-    }
-    this.setState({
-      filter: {
-        ...this.state.filter,
-        tag: user.tag,
-      }
-      }, () => this.fetchAdverts(this.state.filter)
-    );
+    //Cargamos el filtro inicial
+    const user = this.props.user;
+    this.props.setFilter({ ...this.state.filter, tag: user.tag } );
+    // this.setState({
+    //   filter: {
+    //     ...this.state.filter,
+    //     tag: user.tag,
+    //   }
+    //   }, () => this.fetchAdverts(this.state.filter)
+    // );
+    this.props.loadAdverts();
   }
 
   componentDidUpdate (prevProps, prevState)  {
@@ -166,12 +161,9 @@ class Adverts extends React.Component {
    }
 
   render () {
-    const { loading , adverts, filter, totalPages, currentPage, error, errorMessage } = this.state;
-    const { user } = this.props.user || {};
-
-    // if (Object.entries(user).length === 0) {
-    //   return null;
-    // }
+    const { loading , filter, totalPages, currentPage, error, errorMessage } = this.state;
+    const { isFetching, adverts } = this.props;
+   
     if (error) {
       return <CaptureError message="Error fecthing Adverts" error={errorMessage} />
     }
@@ -179,17 +171,17 @@ class Adverts extends React.Component {
       <>
         <Navbar  />
         <Searchbar {...filter} onChangeText={this.changeText} handlerSubmit={this.handlerSubmit} /> 
-        {loading === true 
+        {isFetching === true 
           ?  <Loading text='Fetching Adverts' />
           :  <>
               <AdvertsGrid adverts={adverts} text={this.state.text} 
                 totalPages={totalPages} currentPage={currentPage} 
                 onChangePage={this.handlerPage}/>
-                <div className="container-pagination" style={{marginTop: '100px'}}>
-                  <Pagination 
-                    currentPage={currentPage}
-                    onChange={(page) =>{this.handlerPage(page)}} />
-                </div>
+              <div className="container-pagination" style={{marginTop: '100px'}}>
+                <Pagination 
+                  currentPage={currentPage}
+                  onChange={(page) =>{this.handlerPage(page)}} />
+              </div>
             </>
         }
         <Footer />
@@ -200,11 +192,18 @@ class Adverts extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    adverts: state.adverts,
+    isFetching: state.ui.isFetching,
+    error: state.ui.error,
   }
 }
 
-export default connect(mapStateToProps)(Adverts);
+function mapDispatchToProps(dispatch) {
+  return {
+    setFilter: filter => dispatch(setFilter(filter)),
+    loadAdverts: () => dispatch(fetchAdverts()),
+  }
+}
 
-
-// Adverts.contextType = UserContext;
+export default connect(mapStateToProps, mapDispatchToProps)(Adverts);
