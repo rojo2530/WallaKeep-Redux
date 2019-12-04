@@ -5,7 +5,7 @@ import Navbar from './Navbar';
 import Footer from './Footer';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
 import { connect } from 'react-redux';
-import { fecthSingleAdvert, fetchAdverts } from '../store/actions';
+import { fecthSingleAdvert } from '../store/actions';
 import CaptureError  from './CaptureError';
 
 const { getAdvertDetail } = api();
@@ -30,7 +30,6 @@ class DetailAdvert extends React.Component {
     console.log('Entra aquí');
     const { id } = this.props.match.params;
     this.props.loadAdvert(id);
-    console.log('Advert en compo ', this.props.isFetching );
 
     // getAdvertDetail(id).then(advert => this.setState({
     //   advert,

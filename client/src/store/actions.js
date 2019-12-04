@@ -1,7 +1,6 @@
 import 
   { SET_USER, 
     SET_FILTER, 
-    // SET_ADVERTS,
     FETCH_ADVERTS_REQUEST,
     FETCH_ADVERTS_SUCCESS,
     FETCH_ADVERTS_FAILURE, 
@@ -11,6 +10,9 @@ import
     CREATE_ADVERT_REQUEST,
     CREATE_ADVERT_SUCCESS,
     CREATE_ADVERT_FAILURE,
+    EDIT_ADVERT_REQUEST,
+    EDIT_ADVERT_SUCCESS,
+    EDIT_ADVERT_FAILURE
   } from './types';
 
 import api from '../utils/api';
@@ -32,21 +34,30 @@ export const fetchAdverts = () => {
 
 export const fecthSingleAdvert = id => {
   return async function (dispatch, getState) {
-    dispatch(fetchSingleAdvertRequest(id));
-    try {
-      const advert = await getAdvertDetail(id);
-      dispatch(fetchSingleAdvertSuccess(advert));
-    } catch (error) {
-      dispatch(fetchSingleAdvertFailure(error));
+    const { advert } = getState();
+    //Si el anuncio ya está en redux, lo despachamos directamente sin hacer petición a la api
+    // if (advert && id === advert._id) {
+    //   dispatch(fetchSingleAdvertSuccess(advert));
+    // }
+    if (!advert || id !== advert._id) {
+      console.log('Hace petición a la api');
+      dispatch(fetchSingleAdvertRequest(id));
+      try {
+        const advert = await getAdvertDetail(id);
+        dispatch(fetchSingleAdvertSuccess(advert));
+      } catch (error) {
+        dispatch(fetchSingleAdvertFailure(error));
+      }
     }
   }
 }
 
-export const createAdvert = advert => {
+export const createAdvertPost = advert => {
   return async function (dispatch, getState) {
-    dispatch(createAdvertRequest());
+    dispatch(createAdvertRequest(advert));
     try {
       const response = await createAdvert(advert);
+      console.log(response);
       dispatch(createAdvertSuccess(response));
     } catch (error) {
       dispatch(createAdvertFailure(error));
@@ -82,7 +93,7 @@ export const fetchSingleAdvertSuccess = advert => ({
   advert,
 })
 
-export const createAdvertRequest = id => ({
+export const createAdvertRequest = () => ({
   type: CREATE_ADVERT_REQUEST,
 });
 
@@ -94,7 +105,21 @@ export const createAdvertFailure = error => ({
 export const createAdvertSuccess = advert => ({
   type: CREATE_ADVERT_SUCCESS,
   advert,
-})
+});
+
+export const editAdvertRequest = () => ({
+  type: EDIT_ADVERT_REQUEST,
+});
+
+export const editAdvertFailure = error => ({
+  type: EDIT_ADVERT_FAILURE,
+  error,
+});
+
+export const editAdvertSuccess = advert => ({
+  type: EDIT_ADVERT_SUCCESS,
+  advert,
+});
 
 export const setUser = user => ({
   type: SET_USER,

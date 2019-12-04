@@ -48,18 +48,19 @@ export const advert = (state = initialState.advert, action) => {
   }
 }
 
-
-
 export const ui = (state = initialState.ui, action) => {  
   switch(action.type) {
     case TYPES.FETCH_ADVERTS_REQUEST:
     case TYPES.FETCH_SINGLE_ADVERT_REQUEST:
+    case TYPES.CREATE_ADVERT_REQUEST:
       return { ...state, isFetching: true, error: null };
     case TYPES.FETCH_ADVERTS_FAILURE:
     case TYPES.FETCH_SINGLE_ADVERT_FAILURE:
+    case TYPES.CREATE_ADVERT_FAILURE:
       return { ...state, isFetching: false, error: action.error }
     case TYPES.FETCH_ADVERTS_SUCCESS:
     case TYPES.FETCH_SINGLE_ADVERT_SUCCESS:
+    case TYPES.CREATE_ADVERT_SUCCESS:
       return { ...state, isFetching: false, error: null }
     default: 
       return state;
