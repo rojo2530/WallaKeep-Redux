@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 // import { saveUser } from '../utils/storage';
 import { FaUser, FaTag } from 'react-icons/fa';
 import { setUser } from '../store/actions';
+import { isUserAuth } from '../store/selectors';
 
 class Register extends React.Component {
   constructor(props) {
@@ -62,6 +63,9 @@ class Register extends React.Component {
     // if (Object.entries(this.props.user).length !== 0) {
     //   return this.props.history.push('/');
     // }
+    if (this.props.isAuth) {
+      this.props.history.push('/');
+    }
   }
 
   render () {
@@ -131,7 +135,8 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    user: state.user
+    user: state.user,
+    isAuth: isUserAuth(state.user)
   }
 }
 

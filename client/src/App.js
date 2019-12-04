@@ -9,7 +9,7 @@ import ManageAdvert from './components/ManageAdvert';
 import DetailAdvert from './components/DetailAdvert';
 import ErrorBoundary from './components/ErrorBoundary';
 import Error404 from './components/Error404';
-import { PrivateRoute } from './index';
+import PrivateRoute from './components/PrivateRoute';
 
 
 export default function App({ store, ...props }) {

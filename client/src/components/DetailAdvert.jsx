@@ -4,44 +4,57 @@ import api from '../utils/api';
 import Navbar from './Navbar';
 import Footer from './Footer';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
+import { connect } from 'react-redux';
+import { fecthSingleAdvert, fetchAdverts } from '../store/actions';
+import CaptureError  from './CaptureError';
 
 const { getAdvertDetail } = api();
 
-export default class DetailAdvert extends React.Component {
+class DetailAdvert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      advert: {
-        name: '',
-        description: '',
-        tags: [],
-        price: '',
-        type: 'sell',
-        photo: ''
-      },
-      loading: true
+      // advert: {
+      //   name: '',
+      //   description: '',
+      //   tags: [],
+      //   price: '',
+      //   type: 'sell',
+      //   photo: ''
+      // },
+      // loading: true
     }
   }
 
   componentDidMount() {
+    console.log('Entra aquí');
     const { id } = this.props.match.params;
-    getAdvertDetail(id).then(advert => this.setState({
-      advert,
-      loading: false,
-    })).catch(({ response: { data } }) => {
-      console.log('Error en ruta: ', data.success, data.error.status);
-      if (!data.success && (data.error.status === 422 || data.error.status === 404)) {
-        this.setState({ loading: false });
-        this.props.history.push('/notFound');
-      }
-    })
+    this.props.loadAdvert(id);
+    console.log('Advert en compo ', this.props.isFetching );
+
+    // getAdvertDetail(id).then(advert => this.setState({
+    //   advert,
+    //   loading: false,
+    // })).catch(({ response: { data } }) => {
+    //   console.log('Error en ruta: ', data.success, data.error.status);
+    //   if (!data.success && (data.error.status === 422 || data.error.status === 404)) {
+    //     this.setState({ loading: false });
+    //     this.props.history.push('/notFound');
+    //   }
+    // })
   }
 
   render() {
-    const { advert, loading } = this.state;
-    
-    if (loading) {
-      return <Loading text='Fetching detail Advert' />
+    // const { advert, loading } = this.state;
+    const { advert, isFetching, error }  = this.props;
+    if (isFetching) {
+      return <Loading text='Fetching detail Advert' /> 
+    }
+    if (error) {
+      return <CaptureError message="Error fecthing Advert" error={error.message} />
+    }
+    if (!advert) {
+      return null;
     }
     return (
       <>
@@ -62,11 +75,11 @@ export default class DetailAdvert extends React.Component {
                       <p className="is-size-5">€{advert.price}</p>
                       <h6 className="vc">{advert.type}</h6>
                       <div className="has-spacing-bottom">
-                        {advert.tags.map(tag => (
+                      {advert.tags.map(tag => (
                           <span key={tag} className="tag has-small-spacing-top is-medium">{tag}</span>
                         ))}
                       </div>
-
+    
                       <p>{advert.description}</p>                            <p className="buttons">
                         <a className="button is-link has-icons-left is-medium" href="/">
                           <span className="icon">
@@ -81,7 +94,7 @@ export default class DetailAdvert extends React.Component {
                           <span className="icon">
                             <FaCoins />
                           </span>
-
+    
                         </div>
                         <div className="media-content">
                           <p className="title is-5"> Money Back Guarantee</p>
@@ -94,14 +107,14 @@ export default class DetailAdvert extends React.Component {
                           <span className="icon">
                             <FaTruck />
                           </span>
-
+    
                         </div>
                         <div className="media-content">
                           <p className="title is-5"> International Delivery</p>
                           <p className="subtitle is-5">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</p>
                         </div>
                       </div>
-
+    
                     </div>
                   </div>
                 </div>
@@ -112,8 +125,25 @@ export default class DetailAdvert extends React.Component {
         <Footer />
       </>
     )
+    }
+  
+}
+
+function mapStateToProps(state) {
+  return {
+    advert: state.advert,
+    isFetching: state.ui.isFetching,
+    error: state.ui.error,
   }
 }
 
+function mapDispatchToProps(dispatch) {
+  return {
+    loadAdvert: id => dispatch(fecthSingleAdvert(id)),
+  }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(DetailAdvert)
 
 
