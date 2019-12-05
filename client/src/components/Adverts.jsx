@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { setFilter, fetchAdverts} from '../store/actions';
+import { setFilter, fetchAdverts, setCurrentPage} from '../store/actions';
 import Navbar from './Navbar';
 import Loading from './Loading';
 import Searchbar from './Searchbar';
@@ -26,9 +26,7 @@ class Adverts extends React.Component {
         priceMin: '',
         priceMax: '',
       },
-      // error: false,
-      // errorMessage: '',
-      currentPage: 1,
+    //  currentPage: 1,
     }
     this.changeText = this.changeText.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);
@@ -42,16 +40,22 @@ class Adverts extends React.Component {
       loading: true,
       currentPage: 1,
     });
+    //Al hacer una nueva busqueda volvemos a la pagina 1
+    this.props.changePage(1);
     this.props.setFilter(this.state.filter);
     // this.fetchAdverts(this.state.filter);
     this.props.loadAdverts();
   }
 
   handlerPage(currentPage) {
-    this.setState({
-      currentPage,
-      loading: true,
-    })
+    // this.setState({
+    //   currentPage,
+    //   loading: true,
+    // })
+    console.log('Current Page: ', currentPage);
+    this.props.changePage(currentPage);
+    //Una vez cambiamos de pagina volvemos a cargar los anuncios
+    this.props.loadAdverts();
   }
 
   changeText({ target }) {
@@ -73,8 +77,6 @@ class Adverts extends React.Component {
         tag: user.tag,
       }
     });
-    //   }, () => this.fetchAdverts(this.state.filter)
-    // );
     this.props.loadAdverts();
   }
 
@@ -101,8 +103,8 @@ class Adverts extends React.Component {
    }
 
   render () {
-    const { filter, totalPages, currentPage, errorMessage } = this.state;
-    const { isFetching, error } = this.props;
+    const { filter, totalPages , errorMessage } = this.state;
+    const { isFetching, error, currentPage } = this.props;
    
     if (error) {
       return <CaptureError message="Error fecthing Adverts" error={error.message} />
@@ -135,6 +137,7 @@ function mapStateToProps(state) {
     user: state.user,
     isFetching: state.ui.isFetching,
     error: state.ui.error,
+    currentPage: state.currentPage,
   }
 }
 
@@ -142,6 +145,7 @@ function mapDispatchToProps(dispatch) {
   return {
     setFilter: filter => dispatch(setFilter(filter)),
     loadAdverts: () => dispatch(fetchAdverts()),
+    changePage: page => dispatch(setCurrentPage(page)),
   }
 }
 

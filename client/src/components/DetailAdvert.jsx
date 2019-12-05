@@ -27,7 +27,6 @@ class DetailAdvert extends React.Component {
   }
 
   componentDidMount() {
-    console.log('Entra aquí');
     const { id } = this.props.match.params;
     this.props.loadAdvert(id);
 
@@ -130,7 +129,7 @@ class DetailAdvert extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    advert: state.advert,
+    advert: state.currentAdvert,
     isFetching: state.ui.isFetching,
     error: state.ui.error,
   }

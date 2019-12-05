@@ -241,7 +241,7 @@ class ManageAdvert extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    advert: state.advert,
+    advert: state.currentAdvert,
     isFetching: state.ui.isFetching,
     error: state.ui.error,
   }

@@ -12,7 +12,8 @@ import
     CREATE_ADVERT_FAILURE,
     EDIT_ADVERT_REQUEST,
     EDIT_ADVERT_SUCCESS,
-    EDIT_ADVERT_FAILURE
+    EDIT_ADVERT_FAILURE,
+    SET_CURRENT_PAGE,
   } from './types';
 
 import api from '../utils/api';
@@ -21,10 +22,10 @@ const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
 
 export const fetchAdverts = () => {
   return async function(dispatch, getState) {
-    const { filter } = getState();
+    const { filter, currentPage } = getState();
     dispatch(fetchAdvertsRequest());
     try {
-      const { results } = await getAdverts(filter);
+      const { results } = await getAdverts(filter, currentPage);
       dispatch(fetchAdvertsSuccess(results));
     } catch (error) {
       dispatch(fetchAdvertsFailure(error));
@@ -34,12 +35,9 @@ export const fetchAdverts = () => {
 
 export const fecthSingleAdvert = id => {
   return async function (dispatch, getState) {
-    const { advert } = getState();
-    //Si el anuncio ya está en redux, lo despachamos directamente sin hacer petición a la api
-    // if (advert && id === advert._id) {
-    //   dispatch(fetchSingleAdvertSuccess(advert));
-    // }
-    if (!advert || id !== advert._id) {
+    const { currentAdvert } = getState();
+    //Si el anuncio ya está en redux, no despachamos nada
+    if (!currentAdvert || id !== currentAdvert._id) {
       console.log('Hace petición a la api');
       dispatch(fetchSingleAdvertRequest(id));
       try {
@@ -56,9 +54,8 @@ export const createAdvertPost = advert => {
   return async function (dispatch, getState) {
     dispatch(createAdvertRequest(advert));
     try {
-      const response = await createAdvert(advert);
-      console.log(response);
-      dispatch(createAdvertSuccess(response));
+      const { result } = await createAdvert(advert);
+      dispatch(createAdvertSuccess(result));
     } catch (error) {
       dispatch(createAdvertFailure(error));
     }
@@ -69,9 +66,8 @@ export const editAdvertPost = (id, advert) => {
   return async function (dispatch, getState) {
     dispatch(editAdvertRequest(advert));
     try {
-      const response = await updateAdvert(id, advert);
-      console.log(response);
-      dispatch(editAdvertSuccess(response));
+      const { data } = await updateAdvert(id, advert);
+      dispatch(editAdvertSuccess(data.result));
     } catch (error) {
       dispatch(editAdvertFailure(error));
     }
@@ -101,9 +97,9 @@ export const fetchSingleAdvertFailure = error => ({
   error,
 });
 
-export const fetchSingleAdvertSuccess = advert => ({
+export const fetchSingleAdvertSuccess = currentAdvert => ({
   type: FETCH_SINGLE_ADVERT_SUCCESS,
-  advert,
+  currentAdvert,
 })
 
 export const createAdvertRequest = () => ({
@@ -115,9 +111,9 @@ export const createAdvertFailure = error => ({
   error,
 });
 
-export const createAdvertSuccess = advert => ({
+export const createAdvertSuccess = currentAdvert => ({
   type: CREATE_ADVERT_SUCCESS,
-  advert,
+  currentAdvert,
 });
 
 export const editAdvertRequest = () => ({
@@ -129,9 +125,9 @@ export const editAdvertFailure = error => ({
   error,
 });
 
-export const editAdvertSuccess = advert => ({
+export const editAdvertSuccess = currentAdvert => ({
   type: EDIT_ADVERT_SUCCESS,
-  advert,
+  currentAdvert,
 });
 
 export const setUser = user => ({
@@ -144,3 +140,7 @@ export const setFilter = filter => ({
   filter,
 });
 
+export const setCurrentPage = currentPage => ({
+  type: SET_CURRENT_PAGE,
+  currentPage,
+});

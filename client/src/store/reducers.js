@@ -9,13 +9,23 @@ export const initialState = {
     isFetching: false,
     error: null,
   },
-  advert: null,
+  currentAdvert: null,
+  currentPage: 1,
 }
 
 export const user = (state = initialState.user, action) => {
   switch(action.type) {
     case TYPES.SET_USER:
       return action.user;
+    default: 
+      return state;
+  }
+};
+
+export const currentPage = (state = initialState.currentPage, action) => {
+  switch(action.type) {
+    case TYPES.SET_CURRENT_PAGE:
+      return action.currentPage;
     default: 
       return state;
   }
@@ -39,10 +49,12 @@ export const adverts = (state = initialState.adverts, action) => {
   }
 }
 
-export const advert = (state = initialState.advert, action) => {
+export const currentAdvert = (state = initialState.currentAdvert, action) => {
   switch(action.type) {
     case TYPES.FETCH_SINGLE_ADVERT_SUCCESS:
-      return action.advert;
+    case TYPES.CREATE_ADVERT_SUCCESS:
+    case TYPES.EDIT_ADVERT_SUCCESS:
+      return action.currentAdvert;
     default:
       return state;
   }
