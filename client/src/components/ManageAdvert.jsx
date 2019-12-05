@@ -6,9 +6,10 @@ import { notification } from 'antd';
 import api from '../utils/api';
 import { FaAdversal, FaUser, FaRegFileWord, FaEuroSign, FaImage } from 'react-icons/fa';
 import connected from 'rc-menu/lib/SubMenu';
-import { createAdvertPost, fecthSingleAdvert } from '../store/actions';
+import { createAdvertPost, fecthSingleAdvert, editAdvertPost } from '../store/actions';
 import { advert } from '../store/reducers';
 import { connect } from 'react-redux';
+import CaptureError from './CaptureError';
 
 const { createAdvert, getAdvertDetail, updateAdvert } = api();
 
@@ -45,13 +46,14 @@ class ManageAdvert extends React.Component {
 
  async onSubmit(event) {
     event.preventDefault();
-    console.log(this.state);
     if (this.state.edit) {
-      return updateAdvert(this.state.advert._id, this.state.advert)
-        .then((res) => {
-          openNotification('Advert update with sucess', `The advert was updated correctly`)
-        })
-
+      // return updateAdvert(this.state.advert._id, this.state.advert)
+      //   .then((res) => {
+      //     openNotification('Advert update with sucess', `The advert was updated correctly`)
+      //   })
+      await this.props.editAdvert(this.state.advert._id,this.state.advert);
+      openNotification('Advert update with sucess', `The advert was updated correctly`);
+      return;
     }
     // createAdvert(this.state.advert).then(res => {
     //   openNotification('Advert created with success', `The advert was created correctly`);
@@ -138,13 +140,16 @@ class ManageAdvert extends React.Component {
 
   render() {
     const { loading, advert, edit } = this.state;
-    const { isFetching } = this.props;
+    const { isFetching, error } = this.props;
     
     if (isFetching) {
       return null;
     }
     if (!advert) {
       return null;
+    }
+    if (error) {
+      return <CaptureError message="Error fecthing Adverts" error={error.message} />
     }
     return (
       <>
@@ -246,6 +251,7 @@ function mapDispatchToProps(dispatch) {
   return {
     newAdvert: advert => dispatch(createAdvertPost(advert)),
     loadAdvert: id => dispatch(fecthSingleAdvert(id)),
+    editAdvert: (id, advert) => dispatch(editAdvertPost(id,advert)),
   }
 }
 

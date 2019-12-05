@@ -17,7 +17,7 @@ import
 
 import api from '../utils/api';
 
-const { getAdverts, getAdvertDetail, createAdvert } = api();
+const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
 
 export const fetchAdverts = () => {
   return async function(dispatch, getState) {
@@ -61,6 +61,19 @@ export const createAdvertPost = advert => {
       dispatch(createAdvertSuccess(response));
     } catch (error) {
       dispatch(createAdvertFailure(error));
+    }
+  }
+}
+
+export const editAdvertPost = (id, advert) => {
+  return async function (dispatch, getState) {
+    dispatch(editAdvertRequest(advert));
+    try {
+      const response = await updateAdvert(id, advert);
+      console.log(response);
+      dispatch(editAdvertSuccess(response));
+    } catch (error) {
+      dispatch(editAdvertFailure(error));
     }
   }
 }
