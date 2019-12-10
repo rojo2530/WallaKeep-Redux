@@ -26,7 +26,6 @@ export default function withFormHandle(FormComponent) {
 
     handleSubmit(e) {
       e.preventDefault();
-      console.log(this.state.fields);
       this.props.onSubmit(this.state.fields);        
     }
 

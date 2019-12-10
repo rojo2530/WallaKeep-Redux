@@ -23,8 +23,6 @@ export default function App({ store, ...props }) {
 						<PrivateRoute exact path='/advert/detail/:id' component={DetailAdvert} />
 						<PrivateRoute key='add-advert' exact path='/advert/create' component={ManageAdvert} />
 						<PrivateRoute key='edit-advert' exact path='/advert/edit/:id' component={ManageAdvert} />
-						<Route exact path='/login' component={Login} />
-
 						<Route component={Error404}/>
 					</Switch>
 				</Router>

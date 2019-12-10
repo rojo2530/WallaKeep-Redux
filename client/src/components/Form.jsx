@@ -5,7 +5,6 @@ const Form = ({children, ...props}) => {
     return (
       <form {...props}>
         {children} 
-        <input type="submit" />
       </form>
     )
 }

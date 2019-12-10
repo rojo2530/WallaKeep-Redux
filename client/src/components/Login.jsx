@@ -1,42 +1,44 @@
 import React from "react";
 import Form from './Form';
 import Input from './Input';
-import { MyContext } from './withFormHandle';
 import { FaUser, FaTag } from 'react-icons/fa';
-import SelectTag from './SelectTag';
+import SelectTagContext from './SelectTagContext';
+import { notification } from 'antd';
+import { connect } from 'react-redux';
 
 
+const openNotification = (message, description) => {
+  notification.open({
+    message,
+    description,
+    type: 'warning',
+    style: { backgroundColor: 'yellow' }
+  });
+}
 
-
-export default class Login extends React.Component {
-    static contextType = MyContext;
+class Login extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      user: {
-        name: '',
-        lastname: '',
-        tag: 'all',
-      }
-    };
     this.handleSubmit = this.handleSubmit.bind(this);
-   
-    }
+  }
   
-  isInvalidValidForm() {
-    // return this.state.user.name.trim().length <= 3 ||
-    //   this.state.user.lastname.trim().length <= 3 
-    return false;
+  isInvalidValidForm(user) {
+    return user.name.trim().length <= 3 ||
+      user.lastname.trim().length <= 3 
   }
 
-  handleSubmit(value) {
-    console.log('Values from Login COmponent: ', value);
+  handleSubmit(user) {
+    if (this.isInvalidValidForm(user)) {
+      openNotification('Invalid Form', `The field name or lastname are not correct`);
+      return false;
+    }
+    this.props.setUser(user);
+    this.props.history.push('/');
+
   }
 
   render() {
-    const { user } = this.state;
-
     return(
       <section className="hero is-fullheight is-dark">
         <div className="hero-body">
@@ -67,14 +69,14 @@ export default class Login extends React.Component {
                   <div className="field">
                     <label className="label">Tag</label>
                     <div className="control has-icons-left">
-                    <SelectTag name="tag"  tag={user.tag} onChange={this.onChangeField}/>
+                    <SelectTagContext name="tag" />
                     <span className="icon is-small is-left"><FaTag /></span>
                     </div>
                   </div>
                 
                   <div className="field">
                     <p className="control">
-                      <button className="button is-dark is-medium is-fullwidth is-disabled"  disabled={this.isInvalidValidForm()}>Sign Up</button>
+                      <button className="button is-dark is-medium is-fullwidth is-disabled">Sign Up</button>
                     </p>
                   </div>
                 </Form>
@@ -89,8 +91,5 @@ export default class Login extends React.Component {
       </section>
     )
   }
-
-
 }
-
 
