@@ -1,5 +1,4 @@
 import * as TYPES from './types';
-// import ActionButton from 'antd/lib/modal/ActionButton';
 
 export const initialState = {
   filter: {},

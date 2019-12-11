@@ -6,16 +6,16 @@ import './index.css';
 import App from './App';
 import { configureStore } from './store';
 import { restoreUser, saveUser, deleteStorage } from './utils/storage';
-// import { Route, Redirect } from "react-router-dom";
 import { initialState } from './store/reducers';
-// import { connect } from 'react-redux';
-// import { isUserAuth } from './store/selectors';
+import api from './utils/api';
+
+const { getAdverts } = api();
 
 //Cargamos el Store con lo que hay en localstorage y si esta vacío usamos el estado inicial
 const preloadedState = { ...initialState, user: restoreUser() || {} };
 console.log('Estado inicial: ', preloadedState);
 
-const store = configureStore(preloadedState);
+const store = configureStore({services: {getAdverts} })(preloadedState);
 
 //Cualquier cambio en el store lo guardamos en el localstorage
 store.subscribe(() => {
@@ -26,24 +26,6 @@ store.subscribe(() => {
   }
   saveUser(user);
 });
-
-// export const PrivateRoute = ({ component: Component, ...rest }) => (
-//   <Route {...rest} render={(props) => (
-//     (props.isAuth) 
-//       ? <Component {...props} />
-//       : <Redirect to='/register' />
-//   )} />
-// )
-
-// function mapStateToProps(state) {
-//   return {
-//     isAuth: isUserAuth(state.user),
-//   }
-// }
-
-// export const PrivateRouteConnected =  connect(mapStateToProps)(PrivateRoute); 
-
-
 
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
 

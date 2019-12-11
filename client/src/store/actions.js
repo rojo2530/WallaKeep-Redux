@@ -21,12 +21,12 @@ import api from '../utils/api';
 const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
 
 export const fetchAdverts = () => {
-  return async function(dispatch, getState) {
+  return async function(dispatch, getState, { services: { getAdverts } }) {
     const { filter, currentPage } = getState();
     dispatch(fetchAdvertsRequest());
     try {
-      const { results } = await getAdverts(filter, currentPage);
-      dispatch(fetchAdvertsSuccess(results));
+      const data = await getAdverts(filter, currentPage);
+      dispatch(fetchAdvertsSuccess(data.results));
     } catch (error) {
       dispatch(fetchAdvertsFailure(error));
     }
