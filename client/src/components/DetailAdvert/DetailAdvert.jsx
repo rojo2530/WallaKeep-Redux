@@ -1,16 +1,14 @@
 import React from 'react';
-import Loading from './Loading';
-import api from '../utils/api';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import Loading from '../Loading';
+import api from '../../utils/api';
+import Navbar from '../Navbar';
+import Footer from '../Footer';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
-import { connect } from 'react-redux';
-import { fecthSingleAdvert } from '../store/actions';
-import CaptureError  from './CaptureError';
+import CaptureError  from '../CaptureError';
 
-const { getAdvertDetail } = api();
+// const { getAdvertDetail } = api();
 
-class DetailAdvert extends React.Component {
+export default class DetailAdvert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -127,21 +125,6 @@ class DetailAdvert extends React.Component {
   
 }
 
-function mapStateToProps(state) {
-  return {
-    advert: state.currentAdvert,
-    isFetching: state.ui.isFetching,
-    error: state.ui.error,
-  }
-}
 
-function mapDispatchToProps(dispatch) {
-  return {
-    loadAdvert: id => dispatch(fecthSingleAdvert(id)),
-  }
-}
-
-
-export default connect(mapStateToProps, mapDispatchToProps)(DetailAdvert)
 
 

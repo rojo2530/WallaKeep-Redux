@@ -17,8 +17,6 @@ class Adverts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // loading: true,
-      // adverts: [],
       filter: {
         name: '',
         type: '',
@@ -26,7 +24,6 @@ class Adverts extends React.Component {
         priceMin: '',
         priceMax: '',
       },
-    //  currentPage: 1,
     }
     this.changeText = this.changeText.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);

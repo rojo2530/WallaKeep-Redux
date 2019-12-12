@@ -6,7 +6,7 @@ import { Provider } from 'react-redux';
 import Adverts from './components/Adverts';
 import Register from './components/Register';
 import ManageAdvert from './components/ManageAdvert';
-import DetailAdvert from './components/DetailAdvert';
+import DetailAdvert from './components/DetailAdvert/'
 import ErrorBoundary from './components/ErrorBoundary';
 import Error404 from './components/Error404';
 import PrivateRoute from './components/PrivateRoute';

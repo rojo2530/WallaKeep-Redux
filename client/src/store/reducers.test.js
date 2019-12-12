@@ -22,7 +22,8 @@ describe('reducers', () => {
         type: TYPES.SET_CURRENT_PAGE,
         currentPage: 4,
       };
-      expect(currentPage(initialState.currentPage, actionPage )).toEqual(4)
+      const expectedState = 4;
+      expect(currentPage(initialState.currentPage, actionPage )).toEqual(expectedState)
     });
   });
 });

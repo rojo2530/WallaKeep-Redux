@@ -4,8 +4,6 @@ import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FaShoppingCart } from 'react-icons/fa';
 
-
-
 const styles = {
   content: {
     fontSize: '35px',
