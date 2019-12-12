@@ -1,12 +1,9 @@
 import React from 'react';
 import Loading from '../Loading';
-import api from '../../utils/api';
 import Navbar from '../Navbar';
 import Footer from '../Footer';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
 import CaptureError  from '../CaptureError';
-
-// const { getAdvertDetail } = api();
 
 export default class DetailAdvert extends React.Component {
   constructor(props) {
