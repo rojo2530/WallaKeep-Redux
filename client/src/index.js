@@ -9,13 +9,13 @@ import { restoreUser, saveUser, deleteStorage } from './utils/storage';
 import { initialState } from './store/reducers';
 import api from './utils/api';
 
-const { getAdverts } = api();
+const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
 
 //Cargamos el Store con lo que hay en localstorage y si esta vacío usamos el estado inicial
 const preloadedState = { ...initialState, user: restoreUser() || {} };
-console.log('Estado inicial: ', preloadedState);
-
-const store = configureStore( {services: {getAdverts} })(preloadedState);
+const store = configureStore( 
+  {services: {getAdverts, getAdvertDetail, createAdvert, updateAdvert} })
+  (preloadedState);
 
 //Cualquier cambio en el store lo guardamos en el localstorage
 store.subscribe(() => {

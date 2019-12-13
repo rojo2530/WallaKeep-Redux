@@ -16,10 +16,6 @@ import
     SET_CURRENT_PAGE,
   } from './types';
 
-import api from '../utils/api';
-
-const { getAdvertDetail, createAdvert, updateAdvert } = api();
-
 export const fetchAdverts = () => {
   return async function(dispatch, getState, { services: { getAdverts } }) {
     const { filter, currentPage } = getState();
@@ -34,7 +30,7 @@ export const fetchAdverts = () => {
 }
 
 export const fecthSingleAdvert = id => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { getAdvertDetail } } ) {
     const { currentAdvert } = getState();
     //Si el anuncio ya está en redux, no despachamos nada
     if (!currentAdvert || id !== currentAdvert._id) {
@@ -51,7 +47,7 @@ export const fecthSingleAdvert = id => {
 }
 
 export const createAdvertPost = advert => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { createAdvert } }) {
     dispatch(createAdvertRequest(advert));
     try {
       const { result } = await createAdvert(advert);
@@ -63,7 +59,7 @@ export const createAdvertPost = advert => {
 }
 
 export const editAdvertPost = (id, advert) => {
-  return async function (dispatch, getState) {
+  return async function (dispatch, getState, { services: { updateAdvert } }) {
     dispatch(editAdvertRequest(advert));
     try {
       const { data } = await updateAdvert(id, advert);
