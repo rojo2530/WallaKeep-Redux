@@ -66,7 +66,8 @@ A form could be written as follows:
 `<Form onSubmit={...} initialValue={{username: '', lastname: ''}}>
     <Input type="text" name="username" />
     <Input type="text name="lastname" />
-</Form>`
+</Form> `
+
 
 Application too use render props to create a component called PrivateRoute that checks whether the user is registered or not.
 
