@@ -1,5 +1,5 @@
 import React, {useContext} from "react";
-import { MyContext } from './withFormHandle.js'
+import { MyContext } from '../hoc/withFormHandle'
 
 const Input = ({name, ...props}) => {
   const context = useContext(MyContext);

@@ -1,15 +1,12 @@
 import React from 'react';
-import SelectMultiple from './SelectMultiple';
-import Navbar from './Navbar';
-import Footer from './Footer';
+import SelectMultiple from '../SelectMultiple/';
+import Navbar from '../Navbar/';
+import Footer from '../Footer';
 import { notification } from 'antd';
-import api from '../utils/api';
+import api from '../../utils/api';
 import { FaAdversal, FaUser, FaRegFileWord, FaEuroSign, FaImage } from 'react-icons/fa';
-import connected from 'rc-menu/lib/SubMenu';
-import { createAdvertPost, fecthSingleAdvert, editAdvertPost } from '../store/actions';
-import { advert } from '../store/reducers';
-import { connect } from 'react-redux';
-import CaptureError from './CaptureError';
+
+import CaptureError from '../CaptureError';
 
 const { createAdvert, getAdvertDetail, updateAdvert } = api();
 
@@ -22,7 +19,7 @@ const openNotification = (message, description) => {
   });
 }
 
-class ManageAdvert extends React.Component {
+export default class ManageAdvert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -239,20 +236,3 @@ class ManageAdvert extends React.Component {
   }
 }
 
-function mapStateToProps(state) {
-  return {
-    advert: state.currentAdvert,
-    isFetching: state.ui.isFetching,
-    error: state.ui.error,
-  }
-}
-
-function mapDispatchToProps(dispatch) {
-  return {
-    newAdvert: advert => dispatch(createAdvertPost(advert)),
-    loadAdvert: id => dispatch(fecthSingleAdvert(id)),
-    editAdvert: (id, advert) => dispatch(editAdvertPost(id,advert)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ManageAdvert);

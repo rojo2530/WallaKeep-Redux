@@ -1,8 +1,8 @@
 import React from 'react';
 import { Select } from 'antd';
-import api from '../utils/api';
+import api from '../../utils/api';
 import PropTypes from 'prop-types';
-import CaptureError from './CaptureError';
+import CaptureError from '../CaptureError';
 
 const { Option } = Select;
 const { getTags } = api();

@@ -33,8 +33,8 @@ describe('DetailAdvert', () => {
   it('Should call to prop loadAdvert on ComponentDidMount', () => {
     const instance = wrapper.instance();
     const { loadAdvert } = defaultProps;
+    const { match } = defaultProps; 
     instance.componentDidMount();
-    expect(loadAdvert).toHaveBeenCalled();
+    expect(loadAdvert).toHaveBeenCalledWith(match.id);
   });
-
 });

@@ -1,6 +1,6 @@
 import React from 'react';
-import CaptureError from './CaptureError';
-import api from '../utils/api';
+import CaptureError from '../CaptureError/';
+import api from '../../utils/api';
 import PropTypes from 'prop-types';
 
 const { getTags } = api();

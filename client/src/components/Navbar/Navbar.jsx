@@ -1,11 +1,8 @@
 import React from 'react';
-import { Link, withRouter } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { setUser } from '../store/actions';
-// import UserContext from '../contexts/user';
-// import { deleteStorage } from '../utils/storage';
+import { Link } from 'react-router-dom';
 
-class Navbar extends React.Component {
+
+export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -61,15 +58,5 @@ class Navbar extends React.Component {
   }
 }
 
-// Navbar.contextType = UserContext;
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setUser: user => dispatch(setUser(user)),
-  }
-}
 
 
-export default connect(null, mapDispatchToProps)(withRouter(Navbar)); 
-
-// export default withRouter(Navbar);

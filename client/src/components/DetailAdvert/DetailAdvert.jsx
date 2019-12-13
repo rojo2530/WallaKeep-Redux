@@ -1,9 +1,9 @@
 import React from 'react';
-import Loading from '../Loading';
-import Navbar from '../Navbar';
-import Footer from '../Footer';
+import Loading from '../Loading/';
+import Navbar from '../Navbar/';
+import Footer from '../Footer/';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
-import CaptureError  from '../CaptureError';
+import CaptureError  from '../CaptureError/';
 
 export default class DetailAdvert extends React.Component {
   constructor(props) {

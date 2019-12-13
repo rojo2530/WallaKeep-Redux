@@ -1,5 +1,4 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FaShoppingCart } from 'react-icons/fa';
@@ -15,7 +14,7 @@ const styles = {
   }
 }
 
-function AdvertsGrid({ adverts }) {
+export default function AdvertsGrid({ adverts }) {
   return (
    <>
      {adverts.length === 0
@@ -63,10 +62,3 @@ AdvertsGrid.propTypes = {
   adverts: PropTypes.array.isRequired
 }
 
-function mapStateToProps(state) {
-  return {
-    adverts: state.adverts,
-  }
-}
-
-export default connect(mapStateToProps)(AdvertsGrid);

@@ -1,5 +1,5 @@
 import React from "react";
-import withFormHandle from './withFormHandle';
+import withFormHandle from '../hoc/withFormHandle';
 
 const Form = ({children, ...props}) => {
     return (

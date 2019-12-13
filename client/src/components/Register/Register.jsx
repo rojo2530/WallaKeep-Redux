@@ -1,11 +1,9 @@
-import React from "react";
-import Form from './Form';
-import Input from './Input';
+import React from 'react';
+import SelectTagContext from '../SelectTagContext/';
+import Form from '../Form';
+import Input from '../Input';
 import { FaUser, FaTag } from 'react-icons/fa';
-import SelectTagContext from './SelectTagContext';
 import { notification } from 'antd';
-import { connect } from 'react-redux';
-
 
 const openNotification = (message, description) => {
   notification.open({
@@ -16,8 +14,7 @@ const openNotification = (message, description) => {
   });
 }
 
-class Login extends React.Component {
-
+export default class Register extends React.Component {
   constructor(props) {
     super(props);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,7 +32,6 @@ class Login extends React.Component {
     }
     this.props.setUser(user);
     this.props.history.push('/');
-
   }
 
   render() {
@@ -47,7 +43,6 @@ class Login extends React.Component {
               <h1 className="avatar has-text-centered section"><span aria-label="logo" role="img" style={{fontSize: '5rem'}}>🛒</span></h1>
               <div className="login-form">
                 <Form onSubmit={this.handleSubmit} initialValue={{name: '', lastname: '', tag: 'all'}}>
-                  
                   <div className="field">
                     <label className="label">Name</label>
                     <div className="control has-icons-left">
@@ -92,4 +87,7 @@ class Login extends React.Component {
     )
   }
 }
+
+
+
 

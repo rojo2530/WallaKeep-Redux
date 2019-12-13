@@ -1,5 +1,5 @@
 import React from 'react';
-import SelectTag from './SelectTag';
+import SelectTag from '../SelectTag/';
 import PropTypes from 'prop-types';
 
 export default function Searchbar ({ onChangeText, handlerSubmit, name, priceMin, priceMax, tag, type }) {

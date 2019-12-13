@@ -1,8 +1,8 @@
 import React from 'react';
-import CaptureError from './CaptureError';
-import api from '../utils/api';
+import CaptureError from '../CaptureError';
+import api from '../../utils/api';
 import PropTypes from 'prop-types';
-import { MyContext } from './withFormHandle.js'
+import { MyContext } from '../hoc/withFormHandle'
 
 const { getTags } = api();
 
@@ -48,6 +48,5 @@ export default class SelectTagContext extends React.Component {
 SelectTagContext.propTypes = {
   name: PropTypes.string.isRequired,
 }
-
 
 SelectTagContext.contextType = MyContext;

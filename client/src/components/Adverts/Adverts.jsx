@@ -1,19 +1,14 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { setFilter, fetchAdverts, setCurrentPage} from '../store/actions';
-import Navbar from './Navbar';
-import Loading from './Loading';
-import Searchbar from './Searchbar';
-import api from '../utils/api';
+import Navbar from '../Navbar/';
+import Loading from '../Loading/';
+import Searchbar from '../Searchbar/';
 import Pagination from 'bulma-pagination-react';
-import CaptureError from './CaptureError';
-import Footer from './Footer';
+import CaptureError from '../CaptureError/';
+import Footer from '../Footer/';
 import PropTypes from 'prop-types';
-import AdvertsGrid  from './AdvertsGrid';
+import AdvertsGrid from '../AdvertsGrid/';
 
-const { getAdverts } = api();
-
-class Adverts extends React.Component {
+export default class Adverts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,24 +27,13 @@ class Adverts extends React.Component {
 
   handlerSubmit(event) {
     event.preventDefault();
-    
-    this.setState({
-      loading: true,
-      currentPage: 1,
-    });
-    //Al hacer una nueva busqueda volvemos a la pagina 1
+   //Al hacer una nueva busqueda volvemos a la pagina 1
     this.props.changePage(1);
     this.props.setFilter(this.state.filter);
-    // this.fetchAdverts(this.state.filter);
     this.props.loadAdverts();
   }
 
   handlerPage(currentPage) {
-    // this.setState({
-    //   currentPage,
-    //   loading: true,
-    // })
-    console.log('Current Page: ', currentPage);
     this.props.changePage(currentPage);
     //Una vez cambiamos de pagina volvemos a cargar los anuncios
     this.props.loadAdverts();
@@ -77,31 +61,10 @@ class Adverts extends React.Component {
     this.props.loadAdverts();
   }
 
-  componentDidUpdate (prevProps, prevState)  {
-    if (prevState.currentPage !== this.state.currentPage) {
-      this.fetchAdverts(this.state.filter, this.state.currentPage)
-   }
-  }
-  
-  fetchAdverts(filter, page) {
-    getAdverts(filter, page)
-      .then(res => this.setState({
-        loading: false,
-        adverts: res.results,
-        
-      })).catch(err => {  
-        console.log("Error caught in catch",err);
-        this.setState({
-          error: true,
-          errorMessage: err.message,
-          loading: false,
-        })
-      });
-   }
-
   render () {
-    const { filter, totalPages , errorMessage } = this.state;
+    const { filter, totalPages } = this.state;
     const { isFetching, error, currentPage } = this.props;
+    console.log('Current Page: ', currentPage)
    
     if (error) {
       return <CaptureError message="Error fecthing Adverts" error={error.message} />
@@ -129,21 +92,11 @@ class Adverts extends React.Component {
   } 
 }
 
-function mapStateToProps(state) {
-  return {
-    user: state.user,
-    isFetching: state.ui.isFetching,
-    error: state.ui.error,
-    currentPage: state.currentPage,
-  }
+Adverts.propTypes = {
+  isFetching:PropTypes.bool.isRequired,
+  error: PropTypes.object,
+  currentPage: PropTypes.number,
+  loadAdverts: PropTypes.func.isRequired,
+  changePage: PropTypes.func.isRequired,
+  setFilter: PropTypes.func.isRequired
 }
-
-function mapDispatchToProps(dispatch) {
-  return {
-    setFilter: filter => dispatch(setFilter(filter)),
-    loadAdverts: () => dispatch(fetchAdverts()),
-    changePage: page => dispatch(setCurrentPage(page)),
-  }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Adverts);
