@@ -15,7 +15,7 @@ const { getAdverts } = api();
 const preloadedState = { ...initialState, user: restoreUser() || {} };
 console.log('Estado inicial: ', preloadedState);
 
-const store = configureStore({services: {getAdverts} })(preloadedState);
+const store = configureStore( {services: {getAdverts} })(preloadedState);
 
 //Cualquier cambio en el store lo guardamos en el localstorage
 store.subscribe(() => {

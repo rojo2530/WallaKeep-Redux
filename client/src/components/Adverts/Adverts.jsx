@@ -19,6 +19,7 @@ export default class Adverts extends React.Component {
         priceMin: '',
         priceMax: '',
       },
+      totalPages: 50
     }
     this.changeText = this.changeText.bind(this);
     this.handlerSubmit = this.handlerSubmit.bind(this);
@@ -64,7 +65,6 @@ export default class Adverts extends React.Component {
   render () {
     const { filter, totalPages } = this.state;
     const { isFetching, error, currentPage } = this.props;
-    console.log('Current Page: ', currentPage)
    
     if (error) {
       return <CaptureError message="Error fecthing Adverts" error={error.message} />

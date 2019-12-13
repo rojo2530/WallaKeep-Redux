@@ -18,7 +18,7 @@ import
 
 import api from '../utils/api';
 
-const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
+const { getAdvertDetail, createAdvert, updateAdvert } = api();
 
 export const fetchAdverts = () => {
   return async function(dispatch, getState, { services: { getAdverts } }) {

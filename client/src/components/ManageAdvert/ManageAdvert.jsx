@@ -3,12 +3,10 @@ import SelectMultiple from '../SelectMultiple/';
 import Navbar from '../Navbar/';
 import Footer from '../Footer';
 import { notification } from 'antd';
-import api from '../../utils/api';
 import { FaAdversal, FaUser, FaRegFileWord, FaEuroSign, FaImage } from 'react-icons/fa';
-
 import CaptureError from '../CaptureError';
+import PropTypes from 'prop-types';
 
-const { createAdvert, getAdvertDetail, updateAdvert } = api();
 
 const openNotification = (message, description) => {
   notification.open({
@@ -31,9 +29,7 @@ export default class ManageAdvert extends React.Component {
         type: 'sell',
         photo: ''
       },
-      loading: true,
       edit: false,
-      error: false,
     };
     this.onChangeField = this.onChangeField.bind(this);
     this.onChangeTag = this.onChangeTag.bind(this);
@@ -44,29 +40,11 @@ export default class ManageAdvert extends React.Component {
  async onSubmit(event) {
     event.preventDefault();
     if (this.state.edit) {
-      // return updateAdvert(this.state.advert._id, this.state.advert)
-      //   .then((res) => {
-      //     openNotification('Advert update with sucess', `The advert was updated correctly`)
-      //   })
       await this.props.editAdvert(this.state.advert._id,this.state.advert);
       openNotification('Advert update with sucess', `The advert was updated correctly`);
       return;
     }
-    // createAdvert(this.state.advert).then(res => {
-    //   openNotification('Advert created with success', `The advert was created correctly`);
-    //   this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
-    //     advert: {
-    //       name: '',
-    //       description: '',
-    //       tags: [],
-    //       price: '',
-    //       type: 'sell',
-    //       photo: ''
-    //     },
-    //   })
-    // });
     await this.props.newAdvert(this.state.advert);
-    console.log('espero');
     this.setState({   //Una vez creamos el anuncio dejamos el formulario en blanco
       advert: {
         name: '',
@@ -78,32 +56,17 @@ export default class ManageAdvert extends React.Component {
       },
     });
     openNotification('Advert created with success', `The advert was created correctly at`);
-
   }
 
   async componentDidMount() {
     if (this.props.history.location.pathname.includes('/advert/edit')) {
       const { id } = this.props.match.params;
-      // return getAdvertDetail(id).then(advert => this.setState({
-      //   advert,
-      //   loading: false,
-      //   edit: true,
-      // })).catch(({ response: { data } }) => {
-      //   if (!data.success && data.error.status === 422) {
-      //     this.props.history.push('/rutanoencontrada');
-      //   } else {
-
-      //   }
-      // });
       await this.props.loadAdvert(id);
       this.setState({
         advert: this.props.advert,
         edit: true
       })
     }
-    this.setState({
-      loading: false,
-    })
   }
 
   onChangeField(event) {
@@ -136,7 +99,7 @@ export default class ManageAdvert extends React.Component {
   }
 
   render() {
-    const { loading, advert, edit } = this.state;
+    const { advert, edit } = this.state;
     const { isFetching, error } = this.props;
     
     if (isFetching) {
@@ -151,7 +114,7 @@ export default class ManageAdvert extends React.Component {
     return (
       <>
         <Navbar />
-        <section className="hero" style={{ marginTop: '50px' }}>{console.log('Estado: ', this.state)}
+        <section className="hero" style={{ marginTop: '50px' }}>
           <div className="hero-body">
             <div className="container">
               <div className="column is-4 is-offset-4 box">
@@ -236,3 +199,11 @@ export default class ManageAdvert extends React.Component {
   }
 }
 
+ManageAdvert.propTypes = {
+  advert: PropTypes.object,
+  error: PropTypes.object,
+  isFetching: PropTypes.bool,
+  loadAdvert: PropTypes.func.isRequired,
+  newAdvert: PropTypes.func.isRequired,
+  editAdvert: PropTypes.func.isRequired,
+}

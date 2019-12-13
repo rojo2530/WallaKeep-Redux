@@ -11,7 +11,6 @@ function mapDispatchToProps(dispatch) {
 
 function mapStateToProps(state) {
   return {
-    user: state.user,
     isAuth: isUserAuth(state.user)
   }
 }

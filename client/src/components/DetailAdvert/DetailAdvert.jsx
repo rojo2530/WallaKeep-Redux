@@ -4,41 +4,19 @@ import Navbar from '../Navbar/';
 import Footer from '../Footer/';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
 import CaptureError  from '../CaptureError/';
+import PropTypes from 'prop-types';
 
 export default class DetailAdvert extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      // advert: {
-      //   name: '',
-      //   description: '',
-      //   tags: [],
-      //   price: '',
-      //   type: 'sell',
-      //   photo: ''
-      // },
-      // loading: true
-    }
   }
 
   componentDidMount() {
     const { id } = this.props.match.params;
     this.props.loadAdvert(id);
-
-    // getAdvertDetail(id).then(advert => this.setState({
-    //   advert,
-    //   loading: false,
-    // })).catch(({ response: { data } }) => {
-    //   console.log('Error en ruta: ', data.success, data.error.status);
-    //   if (!data.success && (data.error.status === 422 || data.error.status === 404)) {
-    //     this.setState({ loading: false });
-    //     this.props.history.push('/notFound');
-    //   }
-    // })
   }
 
   render() {
-    // const { advert, loading } = this.state;
     const { advert, isFetching, error }  = this.props;
     if (isFetching) {
       return <Loading text='Fetching detail Advert' /> 
@@ -118,10 +96,14 @@ export default class DetailAdvert extends React.Component {
         <Footer />
       </>
     )
-    }
-  
+  }
 }
 
-
+DetailAdvert.propTypes = {
+  advert: PropTypes.object,
+  error: PropTypes.object,
+  isFetching: PropTypes.bool,
+  loadAdvert: PropTypes.func.isRequired,
+}
 
 

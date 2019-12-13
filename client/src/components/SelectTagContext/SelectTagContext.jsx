@@ -32,10 +32,10 @@ export default class SelectTagContext extends React.Component {
     if (loading) {
       return null;
     }
-   const { name } = this.props;
+    const { name } = this.props;
     return (
       <div className="select width100">
-        <select className="width100" name='tag' value={this.context.value[name]} name={name} onChange={this.context.onChange} {...this.props}  >
+        <select className="width100" value={this.context.value[name]} name={name} onChange={this.context.onChange} {...this.props}  >
           {tags.map(tagName => {
             return  <option key={tagName} value={tagName}>{tagName}</option>
           })}

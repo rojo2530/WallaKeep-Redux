@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 
-
 export default class Navbar extends React.Component {
   constructor(props) {
     super(props);
@@ -20,7 +19,6 @@ export default class Navbar extends React.Component {
 
   logout(event) {
     event.preventDefault();
-    // deleteStorage();
     //Dejamos el campo de user a un objecto vacio en el estado de redux
     this.props.setUser({});
     this.props.history.push('/register');
@@ -57,6 +55,4 @@ export default class Navbar extends React.Component {
     )
   }
 }
-
-
 
