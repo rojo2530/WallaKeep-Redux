@@ -7,7 +7,6 @@ export default function withFormHandle(FormComponent) {
       super(props);
       this.state = {
         fields: {...props.initialValue},
-        errors: {...props.errors},
       }
       this.handleChange = this.handleChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
