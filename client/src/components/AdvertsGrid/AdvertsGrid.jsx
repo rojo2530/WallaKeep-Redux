@@ -2,6 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { FaShoppingCart } from 'react-icons/fa';
+import { withTranslation } from 'react-i18next';
 
 const styles = {
   content: {
@@ -14,7 +15,7 @@ const styles = {
   }
 }
 
-export default function AdvertsGrid({ adverts }) {
+function AdvertsGrid({ adverts, t }) {
   return (
    <>
      {adverts.length === 0
@@ -46,8 +47,8 @@ export default function AdvertsGrid({ adverts }) {
                   </div>
 						    </div>
 						    <footer className="card-footer">
-							    <Link to={`/advert/detail/${advert._id}`} className="card-footer-item">Detail</Link>
-							    <Link to={`/advert/edit/${advert._id}`} className="card-footer-item">Edit</Link>
+							    <Link to={`/advert/detail/${advert._id}`} className="card-footer-item">{t("Detail")}</Link>
+							    <Link to={`/advert/edit/${advert._id}`} className="card-footer-item">{t("Edit")}</Link>
 						    </footer>
 				      </div>
 				    </div>
@@ -62,3 +63,4 @@ AdvertsGrid.propTypes = {
   adverts: PropTypes.array.isRequired
 }
 
+export default withTranslation()(AdvertsGrid);

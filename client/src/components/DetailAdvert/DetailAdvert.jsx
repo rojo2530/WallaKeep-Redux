@@ -5,8 +5,9 @@ import Footer from '../Footer/';
 import { FaCoins, FaShoppingCart, FaTruck } from 'react-icons/fa';
 import CaptureError  from '../CaptureError/';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
-export default class DetailAdvert extends React.Component {
+class DetailAdvert extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -17,7 +18,7 @@ export default class DetailAdvert extends React.Component {
   }
 
   render() {
-    const { advert, isFetching, error }  = this.props;
+    const { advert, isFetching, error, t }  = this.props;
     if (isFetching) {
       return <Loading text='Fetching detail Advert' /> 
     }
@@ -68,7 +69,7 @@ export default class DetailAdvert extends React.Component {
     
                         </div>
                         <div className="media-content">
-                          <p className="title is-5"> Money Back Guarantee</p>
+                          <p className="title is-5">{t("Money Back Guarantee")}</p>
                           <p className="subtitle is-5">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</p>
                         </div>
                       </div>
@@ -81,7 +82,7 @@ export default class DetailAdvert extends React.Component {
     
                         </div>
                         <div className="media-content">
-                          <p className="title is-5"> International Delivery</p>
+                          <p className="title is-5">{t("International Delivery")}</p>
                           <p className="subtitle is-5">Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae</p>
                         </div>
                       </div>
@@ -106,4 +107,4 @@ DetailAdvert.propTypes = {
   loadAdvert: PropTypes.func.isRequired,
 }
 
-
+export default withTranslation()(DetailAdvert);

@@ -1,14 +1,21 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { withTranslation } from 'react-i18next';
 
-export default class Navbar extends React.Component {
+class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeBurguer: false,
+      lang: "en",
     }
     this.toggleBurguer = this.toggleBurguer.bind(this);
     this.logout = this.logout.bind(this);
+    this.changeLang = this.changeLang.bind(this);
+  }
+
+  componentDidMount() {
+    this.props.i18n.changeLanguage(this.state.lang);
   }
  
   toggleBurguer() {
@@ -24,8 +31,16 @@ export default class Navbar extends React.Component {
     this.props.history.push('/register');
   }
 
+  changeLang() {
+    this.setState(prevState => ({
+      lang: prevState.lang === 'es' ? 'en' : 'es'
+    }), () =>this.props.i18n.changeLanguage(this.state.lang));
+    
+  }
+
   render() {
     const { activeBurguer } = this.state;
+    const { t } = this.props;
     return (
       <>
         <nav className="navbar is-fixed-top">
@@ -41,12 +56,13 @@ export default class Navbar extends React.Component {
           </div>
           <div id="navMenubd-example" className={`navbar-menu ${activeBurguer === true ? 'is-active' : null}`}>
             <div className="navbar-start">
-              <Link className="navbar-item " to='/'><span role="img" aria-label="Home" className="bd-emoji">🏠</span> &nbsp;Home</Link>
-              <Link className="navbar-item " to='/advert/create'><span role="img" aria-label="Profile" className="bd-emoji">📦</span> &nbsp;Create Advert</Link>
+              <Link className="navbar-item " to='/'><span role="img" aria-label="Home" className="bd-emoji">🏠</span> &nbsp;{t("Home")}</Link>
+              <Link className="navbar-item " to='/advert/create'><span role="img" aria-label="Profile" className="bd-emoji">📦</span> &nbsp;{t("Create Advert")}</Link>
             </div>
             <div className="navbar-item">
               <div className="buttons">
-                <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">LogOut</button>
+                <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button">Lang</button>
+                <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">{t("LogOut")}</button>
               </div>
             </div>
           </div>
@@ -56,3 +72,4 @@ export default class Navbar extends React.Component {
   }
 }
 
+export default withTranslation()(Navbar);

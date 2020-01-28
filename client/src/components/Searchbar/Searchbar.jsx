@@ -1,8 +1,9 @@
 import React from 'react';
 import SelectTag from '../SelectTag/';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
 
-export default function Searchbar ({ onChangeText, handlerSubmit, name, priceMin, priceMax, tag, type }) {
+function Searchbar ({ onChangeText, handlerSubmit, name, priceMin, priceMax, tag, type, t }) {
   return (
   <>
     <div className="container" style={{maxWidth: '1140px', marginTop: '40px'}}>
@@ -11,7 +12,7 @@ export default function Searchbar ({ onChangeText, handlerSubmit, name, priceMin
           <div className="box box-search">
             <div className="field has-addons">
               <div className="control is-expanded">
-                <input className="input is-dark has-text-centered" placeholder="Search Advert.."
+                <input className="input is-dark has-text-centered" placeholder={`${t("Search Advert")}...`}
                   value={name} name='name' onChange={onChangeText} id="search" type="search" 
                 />
               </div>
@@ -19,41 +20,41 @@ export default function Searchbar ({ onChangeText, handlerSubmit, name, priceMin
             
             <div className="field has-addons">
               <div className="control is-expanded" style={{width: '50%'}}>
-                <label className="label">Type</label>
+                <label className="label">{t("Type")}</label>
                 <div className="select is-dark width100">
                   <select name='type' className="width100" 
                     value={type}  onChange={onChangeText}
                   >
-                    <option value='all'>all</option>
-                    <option value='buy'>buy</option>
-                    <option value='sell'>sell</option>
+                    <option value='all'>{t("all")}</option>
+                    <option value='buy'>{t("buy")}</option>
+                    <option value='sell'>{t("sell")}</option>
                   </select>
                 </div>
               </div>
               <div className="control is-expanded" style={{width: '50%'}}>
-                <label className="label">Tag</label>
+                <label className="label">{t("Tag")}</label>
                 <SelectTag tag={tag} onChange={onChangeText}/>
               </div>
             </div>
             
             <div className="field has-addons ">
               <div className="control is-expanded">
-                <label className="label">Minimal Price</label>
+                <label className="label">{t("Minimal Price")}</label>
                 <input className="input is-dark has-text-centered" id="search" type="number"
-                value={priceMin} name='priceMin' onChange={onChangeText}  placeholder="Price min.." 
+                value={priceMin} name='priceMin' onChange={onChangeText} 
                 />
               </div>
               <div className="control is-expanded ">
-                <label className="label">Maximal Price</label>
+                <label className="label">{t("Maximal Price")}</label>
                 <input className="input is-dark has-text-centered is-fullwidth" 
-                value={priceMax} name='priceMax' onChange={onChangeText} id="search" type="number" placeholder="Price max.."
+                value={priceMax} name='priceMax' onChange={onChangeText} id="search" type="number"
                 />
               </div>
             </div>
             
             <div className="field has-addons ">
               <div className="control is-expanded">
-                <button className="button is-dark is-fullwidth">Search</button>
+                <button className="button is-dark is-fullwidth">{t("Search")}</button>
               </div>
             </div>
           </div>
@@ -73,3 +74,5 @@ Searchbar.propTypes = {
   tag: PropTypes.string.isRequired,
   type:PropTypes.string.isRequired
 }
+
+export default withTranslation()(Searchbar);

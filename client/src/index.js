@@ -8,6 +8,8 @@ import { configureStore } from './store';
 import { restoreUser, saveUser, deleteStorage } from './utils/storage';
 import { initialState } from './store/reducers';
 import api from './utils/api';
+import { I18nextProvider } from "react-i18next";
+import i18n from './locales/i18n';
 
 const { getAdverts, getAdvertDetail, createAdvert, updateAdvert } = api();
 
@@ -26,6 +28,11 @@ store.subscribe(() => {
   }
   saveUser(user);
 });
-
-ReactDOM.render(<App store={store} />, document.getElementById('root'));
+//Envolvemos a la app en el contexto de i18n
+ReactDOM.render(
+  <I18nextProvider i18n={i18n}>
+    <App store={store} />
+  </I18nextProvider>, 
+  document.getElementById('root')
+);
 

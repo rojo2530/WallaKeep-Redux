@@ -6,7 +6,7 @@ import { notification } from 'antd';
 import { FaAdversal, FaUser, FaRegFileWord, FaEuroSign, FaImage } from 'react-icons/fa';
 import CaptureError from '../CaptureError';
 import PropTypes from 'prop-types';
-
+import { withTranslation } from 'react-i18next';
 
 const openNotification = (message, description) => {
   notification.open({
@@ -17,7 +17,7 @@ const openNotification = (message, description) => {
   });
 }
 
-export default class ManageAdvert extends React.Component {
+class ManageAdvert extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -100,7 +100,7 @@ export default class ManageAdvert extends React.Component {
 
   render() {
     const { advert, edit } = this.state;
-    const { isFetching, error } = this.props;
+    const { isFetching, error, t } = this.props;
     
     if (isFetching) {
       return null;
@@ -122,7 +122,7 @@ export default class ManageAdvert extends React.Component {
                 <div className="login-form">
                   <form onSubmit={this.onSubmit}>
                     <div className="field">
-                      <label className="label">Name</label>
+                      <label className="label">{t("Name")}</label>
                       <div className="control has-icons-left">
                         <input name="name" className="input" value={advert.name} onChange={this.onChangeField} type="text" placeholder="Name..." />
                         <span className="icon is-small is-left"><FaUser /></span>
@@ -130,7 +130,7 @@ export default class ManageAdvert extends React.Component {
                       <p className="help">The name is invalid, is too short</p>
                     </div>
                     <div className="field">
-                      <label className="label">Description</label>
+                      <label className="label">{t("Description")}</label>
                       <div className="control has-icons-left">
                         <input name="description" className="input" type="text" value={advert.description} onChange={this.onChangeField} placeholder="Description  .." />
                         <span className="icon is-small is-left"><FaRegFileWord /></span>
@@ -140,7 +140,7 @@ export default class ManageAdvert extends React.Component {
                     </div>
 
                     <div className="field">
-                      <label className="label">Price</label>
+                      <label className="label">{t("Price")}</label>
                       <div className="control has-icons-left">
                         <input name="price" className="input" type="number" value={advert.price} onChange={this.onChangeField} placeholder="Price.." />
                         <span className="icon is-small is-left"><FaEuroSign /></span>
@@ -150,7 +150,7 @@ export default class ManageAdvert extends React.Component {
                     </div>
 
                     <div className="field">
-                      <label className="label">Photo</label>
+                      <label className="label">{t("Photo")}</label>
                       <div className="control has-icons-left">
                         <input name="photo" className="input" type="text" value={advert.photo} onChange={this.onChangeField} placeholder="Photo..." />
                         <span className="icon is-small is-left"><FaImage /></span>
@@ -160,19 +160,19 @@ export default class ManageAdvert extends React.Component {
                     </div>
 
                     <div className="field">
-                      <label className="label">Tags</label>
+                      <label className="label">{t("Tags")}</label>
                       <div className="control has-icons-left">
                         <SelectMultiple name='tags' value={advert.tags} onChange={this.onChangeTag} />
                       </div>
                     </div>
 
                     <div className="field">
-                      <label className="label">Type</label>
+                      <label className="label">{t("Type")}</label>
                       <div className="control has-icons-left">
                         <div className="select is-fullwidth">
                           <select name='type' value={advert.type} onChange={this.onChangeField}>
-                            <option value='buy'>buy</option>
-                            <option value='sell'>sell</option>
+                            <option value='buy'>{t("buy")}</option>
+                            <option value='sell'>{t("sell")}</option>
                           </select>
                         </div>
                       </div>
@@ -207,3 +207,5 @@ ManageAdvert.propTypes = {
   newAdvert: PropTypes.func.isRequired,
   editAdvert: PropTypes.func.isRequired,
 }
+
+export default withTranslation()(ManageAdvert);

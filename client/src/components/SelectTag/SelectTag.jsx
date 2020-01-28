@@ -2,6 +2,8 @@ import React from 'react';
 import CaptureError from '../CaptureError/';
 import api from '../../utils/api';
 import PropTypes from 'prop-types';
+import { withTranslation } from 'react-i18next';
+
 
 const { getTags } = api();
 
@@ -25,6 +27,7 @@ export default class SelectTag extends React.Component {
 
   render () {
     const { tags, loading, error } = this.state;
+    const { t } = this.props; 
     if (error) {
       return <CaptureError message="Error fecthing tags" error={error} />
     }
