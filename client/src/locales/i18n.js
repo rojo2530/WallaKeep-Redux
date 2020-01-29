@@ -1,7 +1,7 @@
 import i18n from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
-i18n.init({
+i18n.use(LanguageDetector).init({
   // we init with resources
   resources: {
     en: {
@@ -27,7 +27,10 @@ i18n.init({
         "Price": "Price",
         "Photo": "Photo",
         "Tags": "Tags",
-        "Logout": "Logout"
+        "Logout": "Logout",
+        "Design by": "Design by",
+        "Update": "Update",
+        "Create": "Create"
       }
     },
     es: {
@@ -53,7 +56,10 @@ i18n.init({
         "Price": "Precio",
         "Photo": "Foto",
         "Tags": "Categorías",
-        "Logout": "Salir"
+        "Logout": "Salir",
+        "Design by": "Diseñado por",
+        "Update": "Actualizar",
+        "Create": "Crear"
       }
     },
   },

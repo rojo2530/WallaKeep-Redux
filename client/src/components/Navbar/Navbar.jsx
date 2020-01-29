@@ -15,7 +15,9 @@ class Navbar extends React.Component {
   }
 
   componentDidMount() {
-    this.props.i18n.changeLanguage(this.state.lang);
+     this.setState({
+       lang: this.props.i18n.language
+     })
   }
  
   toggleBurguer() {
@@ -40,7 +42,11 @@ class Navbar extends React.Component {
 
   render() {
     const { activeBurguer } = this.state;
-    const { t } = this.props;
+    const { t, i18n } = this.props;
+    const languagesFlag = {
+      en: "us",
+      es: "es"
+    }
     return (
       <>
         <nav className="navbar is-fixed-top">
@@ -61,7 +67,7 @@ class Navbar extends React.Component {
             </div>
             <div className="navbar-item">
               <div className="buttons">
-                <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button">Lang</button>
+                <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button"><span className={`flag-icon flag-icon-${languagesFlag[i18n.language]}`}></span></button>
                 <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">{t("LogOut")}</button>
               </div>
             </div>

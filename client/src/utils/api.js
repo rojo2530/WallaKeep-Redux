@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:3001/apiv1';
+const API_URL = 'https://localhost:7000/apiv1';
 const LIMIT = 5;
 
 function buildEndPoint(filter) {
@@ -46,10 +46,10 @@ const api = () => {
 	return {
 		getAdverts: (filter, page = 1) => {
 			//No me deja el eslint y lo tengo que poner con let en vez de const
-			const skip = (page - 1) * LIMIT;
+			// const skip = (page - 1) * LIMIT;
 			let endPoint = buildEndPoint(filter);
-			if (skip !== 0) {
-				endPoint = `${endPoint}&skip=${skip}`;
+			if (page !== 0) {
+				endPoint = `${endPoint}&start=${page}`;
 			}
 			return axios.get(endPoint)
 				.then(response => response.data)

@@ -82,6 +82,7 @@ export default class Adverts extends React.Component {
               <div className="container-pagination" style={{marginTop: '100px'}}>
                 <Pagination 
                   currentPage={currentPage}
+                  pages={5}
                   onChange={(page) =>{this.handlerPage(page)}} />
               </div>
             </>

@@ -180,7 +180,7 @@ class ManageAdvert extends React.Component {
 
                     <div className="field">
                       <p className="control">
-                        <button className="button is-dark is-medium is-fullwidth is-disabled" disabled={this.isInvalidForm()}>{edit === true ? 'Update' : 'Create'}</button>
+                        <button className="button is-dark is-medium is-fullwidth is-disabled" disabled={this.isInvalidForm()}>{edit === true ? t("Update") : t("Create")}</button>
                       </p>
                     </div>
                   </form>

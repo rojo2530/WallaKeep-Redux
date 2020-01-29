@@ -1,12 +1,13 @@
 import React from 'react';
+import { withTranslation } from 'react-i18next';
 
-export default function Footer() {
+function Footer({ t }) {
   return (
    <footer className="footer" style={{backgroundColor: '#1A202C'}}>
       <div className="container has-no-background">
         <div className="content has-text-centered">
         <p>
-					Design by <a href="https://www.linkedin.com/in/josecantosgalvan/">Jose Cantos</a>.
+					{t("Design by")} <a href="https://www.linkedin.com/in/josecantosgalvan/">Jose Cantos</a>.
 				</p>
         <p>
 					<a title="Hecho con Bulma" aria-label="Hecho con Bulma" rel="noopener nofollow" href="https://bulma.io">
@@ -18,3 +19,5 @@ export default function Footer() {
     </footer>
   )
 }
+
+export default withTranslation()(Footer);
