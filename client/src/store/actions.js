@@ -14,7 +14,30 @@ import
     EDIT_ADVERT_SUCCESS,
     EDIT_ADVERT_FAILURE,
     SET_CURRENT_PAGE,
+    CREATE_USER_REQUEST,
+    CREATE_USER_SUCCESS,
+    CREATE_USER_FAILURE
   } from './types';
+
+  import { notification } from 'antd';
+
+  const openNotificationWarning = (message, description) => {
+    notification.open({
+      message,
+      description,
+      type: 'warning',
+      style: { backgroundColor: 'yellow' }
+    });
+  }
+  
+  const openNotificationSucess = (message, description) => {
+    notification.open({
+      message,
+      description,
+      type: 'success',
+      style: { backgroundColor: 'green' }
+    });
+  }
 
 export const fetchAdverts = () => {
   return async function(dispatch, getState, { services: { getAdverts } }) {
@@ -42,6 +65,20 @@ export const fecthSingleAdvert = id => {
       } catch (error) {
         dispatch(fetchSingleAdvertFailure(error));
       }
+    }
+  }
+}
+
+export const createUser = user => {
+  return async function (dispatch, getState, { services: { registerUser } }) {
+    dispatch(createUserRequest(user));
+    try {
+      const { result } = await registerUser(user);
+      openNotificationSucess('User created with sucess',`the user ${user.email} was created correctly`);
+      dispatch(createUserSuccess(result));
+    } catch (error) {
+      openNotificationWarning('Invalid Nickname or Email', error.response.data.error);
+      dispatch(createUserFailure(error));
     }
   }
 }
@@ -110,6 +147,20 @@ export const createAdvertFailure = error => ({
 export const createAdvertSuccess = currentAdvert => ({
   type: CREATE_ADVERT_SUCCESS,
   currentAdvert,
+});
+
+export const createUserRequest = () => ({
+  type: CREATE_USER_REQUEST
+});
+
+export const createUserFailure = error => ({
+  type: CREATE_USER_FAILURE,
+  error,
+});
+
+export const createUserSuccess = user => ({
+  type: CREATE_USER_SUCCESS,
+  user,
 });
 
 export const editAdvertRequest = () => ({

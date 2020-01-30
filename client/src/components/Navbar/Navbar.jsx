@@ -12,6 +12,7 @@ class Navbar extends React.Component {
     this.toggleBurguer = this.toggleBurguer.bind(this);
     this.logout = this.logout.bind(this);
     this.changeLang = this.changeLang.bind(this);
+    this.login = this.login.bind(this);
   }
 
   componentDidMount() {
@@ -32,6 +33,10 @@ class Navbar extends React.Component {
     this.props.setUser({});
     this.props.history.push('/register');
   }
+  login(event) {
+    event.preventDefault();
+    this.props.history.push('/signin');
+  }
 
   changeLang() {
     this.setState(prevState => ({
@@ -42,7 +47,7 @@ class Navbar extends React.Component {
 
   render() {
     const { activeBurguer } = this.state;
-    const { t, i18n } = this.props;
+    const { t, i18n, isAuth } = this.props;
     const languagesFlag = {
       en: "us",
       es: "es"
@@ -68,7 +73,16 @@ class Navbar extends React.Component {
             <div className="navbar-item">
               <div className="buttons">
                 <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button"><span className={`flag-icon flag-icon-${languagesFlag[i18n.language]}`}></span></button>
-                <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">{t("LogOut")}</button>
+                { isAuth ? (
+                  <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">{t("LogOut")}</button>
+
+
+                ): (
+                  <button onClick={this.login} className="is-dark has-text-weight-bold is-normal button">{t("Login")}</button>
+
+
+                )}
+                
               </div>
             </div>
           </div>

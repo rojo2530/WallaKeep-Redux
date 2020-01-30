@@ -1,6 +1,10 @@
 import axios from 'axios';
 
-const API_URL = 'https://localhost:7000/apiv1';
+let axiosConfig = {
+  withCredentials: false,
+}
+
+const API_URL = '/apiv1';
 const LIMIT = 5;
 
 function buildEndPoint(filter) {
@@ -92,6 +96,44 @@ const api = () => {
 				url: endPoint,
 				data: advert
 			}).then(res => res)
+				.catch(err => {
+					throw err;
+				})
+		},
+		registerUser: user => {
+			const endPoint = `${API_URL}/register`
+			return axios({
+				method: 'post',
+				url: endPoint,
+				data: user
+			}).then(res => res.data)
+				.catch(err => {
+					throw err;
+				});
+		},
+		login: user => {
+			const endPoint = `${API_URL}/login`
+			return axios.post(
+				endPoint,
+				user,
+				axiosConfig
+			).then(res => res.data)
+			.catch(err => {
+				throw err;
+			});
+			// return axios({
+			// 	method: 'post',
+			// 	url: endPoint,
+			// 	data: user,
+			// }).then(res => res.data)
+			// 	.catch(err => {
+			// 		throw err;
+			// 	});
+		},
+		checkToken: () => {
+			const endPoint = `${API_URL}/checkToken`;
+			return axios.get(endPoint)
+				.then(response => response.data.result)
 				.catch(err => {
 					throw err;
 				})
