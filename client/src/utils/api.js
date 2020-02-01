@@ -160,7 +160,15 @@ const api = () => {
 			.catch(err => {
 				throw err;
 			});
-		} 
+		},
+		logout: () => {
+			const endPoint = `${API_URL}/logout`;
+			return axios.get(endPoint)
+				.then(response => response.data.result)
+				.catch(err => {
+					throw err;
+				})
+			} 
 	};
 };
 

@@ -1,23 +1,28 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { withTranslation } from 'react-i18next';
+import api from '../../utils/api';
+
+const { logout } = api();
 
 class Navbar extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       activeBurguer: false,
-      lang: "en",
+      lang: "es",
     }
     this.toggleBurguer = this.toggleBurguer.bind(this);
     this.logout = this.logout.bind(this);
     this.changeLang = this.changeLang.bind(this);
     this.login = this.login.bind(this);
+    this.logout = this.logout.bind(this);
   }
 
   componentDidMount() {
+    console.log('Lenguaje: ', this.props.i18n.language);
      this.setState({
-       lang: this.props.i18n.language
+       lang: this.props.i18n.language.split('-')[0]
      })
   }
  
@@ -31,7 +36,8 @@ class Navbar extends React.Component {
     event.preventDefault();
     //Dejamos el campo de user a un objecto vacio en el estado de redux
     this.props.setUser({});
-    this.props.history.push('/register');
+    logout().then(res => console.log(res))
+      .catch(err => console.log(err));
   }
   login(event) {
     event.preventDefault();
@@ -46,12 +52,14 @@ class Navbar extends React.Component {
   }
 
   render() {
-    const { activeBurguer } = this.state;
+    const { activeBurguer, lang } = this.state;
     const { t, i18n, isAuth } = this.props;
     const languagesFlag = {
       en: "us",
-      es: "es"
+      es: "es",
+      
     }
+    console.log(this.state)
     return (
       <>
         <nav className="navbar is-fixed-top">
@@ -72,7 +80,7 @@ class Navbar extends React.Component {
             </div>
             <div className="navbar-item">
               <div className="buttons">
-                <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button"><span className={`flag-icon flag-icon-${languagesFlag[i18n.language]}`}></span></button>
+                <button onClick={this.changeLang} className="is-dark has-text-weight-bold is-normal button"><span className={`flag-icon flag-icon-${languagesFlag[lang]}`}></span></button>
                 { isAuth ? (
                   <button onClick={this.logout} className="is-dark has-text-weight-bold is-normal button">{t("LogOut")}</button>
 
