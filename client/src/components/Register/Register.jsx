@@ -51,7 +51,7 @@ export default class Register extends React.Component {
     //     console.log(err.response.data.error);
     //     openNotificationWarning('Invalid Nickname or Email', err.response.data.error);
     //   });
-   
+    //le ponemos los campos del token para recuperar la password
     this.props.newUser(user);
    
   }

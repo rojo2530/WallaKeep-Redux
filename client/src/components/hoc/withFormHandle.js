@@ -14,7 +14,6 @@ export default function withFormHandle(FormComponent) {
 
     handleChange(e) {
       const { name, value } = e.target;
-      
        this.setState(({ fields }) => ({
         fields: {
         ...fields,

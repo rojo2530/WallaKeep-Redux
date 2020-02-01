@@ -16,4 +16,5 @@ function mapStateToProps(state) {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Navbar)); 
+export default connect(mapStateToProps
+  , mapDispatchToProps)(withRouter(Navbar)); 

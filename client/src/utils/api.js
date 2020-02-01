@@ -121,14 +121,6 @@ const api = () => {
 			.catch(err => {
 				throw err;
 			});
-			// return axios({
-			// 	method: 'post',
-			// 	url: endPoint,
-			// 	data: user,
-			// }).then(res => res.data)
-			// 	.catch(err => {
-			// 		throw err;
-			// 	});
 		},
 		checkToken: () => {
 			const endPoint = `${API_URL}/checkToken`;
@@ -137,7 +129,38 @@ const api = () => {
 				.catch(err => {
 					throw err;
 				})
-		}
+		},
+		forgotPassword: email => {
+			const endPoint = `${API_URL}/usuario/forgotPassword`;
+			return axios.post(
+				endPoint,
+				email,
+			).then(res => res.data)
+			.catch(err => {
+				throw err;
+			});
+		},
+		resetPassword: resetPasswordToken => {
+			const endPoint = `${API_URL}/usuario/reset`;
+			return axios.get(endPoint, {
+				params: {
+					resetPasswordToken
+				}
+			}).then(res => res.data)
+				.catch(err => {
+					throw err;
+				})
+		},
+		updatePassword: (user) => {
+			const endPoint = `${API_URL}/usuario/updatePassword`;
+			return axios.put(
+				endPoint,
+				user
+			).then(res => res.data)
+			.catch(err => {
+				throw err;
+			});
+		} 
 	};
 };
 
